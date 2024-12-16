@@ -28,14 +28,16 @@ namespace MasterPage
             {
                 while (rdr.Read())
                 {
-                    if (rdr["email"].Equals(em) && rdr["pass"].Equals(pass) && rdr["urole"].Equals("Admin"))
+                    if ((rdr["email"].Equals(em) || rdr["username"].Equals(em)) && rdr["pass"].Equals(pass) && rdr["urole"].Equals("Admin"))
                     {
-                        Response.Redirect("AdminHome.aspx");
+                        Session.["MyUser"] = em;
+                        Response.Redirect("AddProduct.aspx");
                     }
 
                         if (rdr["email"].Equals(em) && rdr["pass"].Equals(pass) && rdr["urole"].Equals("User"))
                         {
-                            Response.Redirect("AdminHome.aspx");
+                        Session.["MyUser"] = em;
+                            Response.Redirect("FetchProduct.aspx");
                         }
                     }
                 }

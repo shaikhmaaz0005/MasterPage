@@ -25,10 +25,21 @@ namespace MasterPage
 
             string user = TextBox1.Text, pass = TextBox3.Text, email = TextBox2.Text, urole = "User";
 
+            string query = $"exec FindExistingUser '{email}'";
+            SqlCommand cmd = new SqlCommand(query, conn);
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            if(rdr.HasRows)
+            {
+                Response.Write("<script>alert('user Already Exist!!!'); window.location.href='Signin.aspx';</script>");
+            }
+            else
+            {
             string q = $"exec signupproc  '{user}','{email}','{pass}','{urole}'";
-            SqlCommand cmd = new SqlCommand(q, conn);
-            cmd.ExecuteNonQuery();
-            Response.Write("<script>alert('SignUp Sucssefully!!!'); window.location.href='SignIn.aspx';</script>");
+                new SqlCommand(q, conn).ExecuteNonQuery();
+            Response.Write("<script>alert('User Registered Sucssefully!!!'); window.location.href='Signin.aspx';</script>");
+                
+            }
         }
     }
 }
